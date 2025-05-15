@@ -2,15 +2,19 @@ const express = require("express");
 
 const app = express();
 
-app.use("/",(req,res)=>{
-    res.send("Namaste from the dashboard");
+app.get("/user",(req,res)=>{
+    res.send("Got the data");
 })
 
-app.use("/test",(req,res)=>{
-    res.send("Hello from the sever");
+app.post("/user",(req,res)=>{
+    res.send("posted the data");
 })
-app.use("/hello",(req,res)=>{
-    res.send("hello hello hello");
+app.delete("/user",(req,res)=>{
+    res.send("deleted the data");
+})
+
+app.patch("/user",(req,res)=>{
+    res.send("patched the data");
 })
 
 app.listen(7777, ()=>{
