@@ -2,19 +2,9 @@ const express = require("express");
 
 const app = express();
 
-app.get("/user",(req,res)=>{
+app.get("/user/:userId/:password",(req,res)=>{
+    console.log(req.params);
     res.send("Got the data");
-})
-
-app.post("/user",(req,res)=>{
-    res.send("posted the data");
-})
-app.delete("/user",(req,res)=>{
-    res.send("deleted the data");
-})
-
-app.patch("/user",(req,res)=>{
-    res.send("patched the data");
 })
 
 app.listen(7777, ()=>{
