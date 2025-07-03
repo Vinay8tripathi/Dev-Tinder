@@ -3,12 +3,9 @@ const  connectDB = require("./config/database");
 const User  = require("./models/user");
 const app = express();
 
+
 app.use(express.json());
-
-
 app.post("/signup",async (req,res)=>{
-    
-
     const user = new User(req.body); 
     try{
     await  user.save();
@@ -17,7 +14,42 @@ app.post("/signup",async (req,res)=>{
     catch(err){
         res.status(400).send("Error saving the user"+err.message);
     }
-    
+})
+
+//get  full dataset
+app.get("/feed", async (req,res)=>{
+    const userEmail = req.body;
+    try{  
+        const user = await User.find({});
+            res.send(user);
+    }
+
+    //get api by email using finOne()
+
+    // try{  
+    //     const user = await User.findOne({emailId:userEmail});
+    //     if(user.length === 0){
+    //         res.status(404).send("user doesnt  exists");
+    //     }
+    //     else{
+    //         res.send(user);
+    //     }
+    // }
+
+   // get api by email using find() 
+
+    // try{
+    //     const user = await User.find({emailId:userEmail});
+    //     if(user.length === 0){
+    //         res.status(404).send("user doesnt  exists");
+    //     }
+    //     else{
+    //         res.send(user);
+    //     }
+    // }
+    catch(err){
+        res.status(400).send("data not found");
+    }
 })
 
 connectDB()
