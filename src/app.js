@@ -3,7 +3,7 @@ const  connectDB = require("./config/database");
 const User  = require("./models/user");
 const app = express();
 
-
+//post API
 app.use(express.json());
 app.post("/signup",async (req,res)=>{
     const user = new User(req.body); 
@@ -16,29 +16,18 @@ app.post("/signup",async (req,res)=>{
     }
 })
 
-//get  full dataset
-app.get("/feed", async (req,res)=>{
-    const userEmail = req.body;
+//get API
+    app.get("/feed", async (req,res)=>{
     try{  
-        const user = await User.find({});
-            res.send(user);
+        const users = await User.find({});
+            res.send(users);
     }
 
-    //get api by email using finOne()
+    // app.get("/users", async (req,res)=>{
+    // const userEmail = req.body.emailId;
 
-    // try{  
-    //     const user = await User.findOne({emailId:userEmail});
-    //     if(user.length === 0){
-    //         res.status(404).send("user doesnt  exists");
-    //     }
-    //     else{
-    //         res.send(user);
-    //     }
-    // }
-
-   // get api by email using find() 
-
-    // try{
+//get api by email using find() 
+     // try{
     //     const user = await User.find({emailId:userEmail});
     //     if(user.length === 0){
     //         res.status(404).send("user doesnt  exists");
@@ -46,9 +35,47 @@ app.get("/feed", async (req,res)=>{
     //     else{
     //         res.send(user);
     //     }
-    // }
-    catch(err){
+     // }
+
+//get api by email using finOne()
+     // try{  
+//     //     const user = await User.findOne({emailId:userEmail});
+//     //     if(user.length === 0){
+//     //         res.status(404).send("user doesnt  exists");
+//     //     }
+//     //     else{
+//     //         res.send(user);
+//     //     }
+//     // }
+ catch(err){
         res.status(400).send("data not found");
+    }
+})
+
+//delete API
+app.delete("/user", async(req,res)=>{
+    const userId = req.body.userId;
+    // const userss = await User.findByIdAndDelete({_id:userId});
+    const userss = await User.findByIdAndDelete(userId);
+    try{
+        res.send("user deleted succesfully");
+    }
+    catch{
+        res.status(400).send("data not available");
+    }
+})
+
+
+app.patch("/user", async (req,res)=>{
+    const userId  = req.body.userId;
+    const data = req.body;
+    const user = await User.findByIdAndUpdate({_id:userId},data,{returnDocument:'after'});
+    try{
+        res.send("user is udated succesfully");
+        console.log(user);
+    }
+    catch{
+        res.status(400).send("data not available");
     }
 })
 
@@ -62,6 +89,7 @@ connectDB()
 .catch((err)=>{
     console.error("Database is not connected");
 })
+    
 
 
 
