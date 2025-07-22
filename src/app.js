@@ -3,6 +3,8 @@ const  connectDB = require("./config/database");
 const User  = require("./models/user");
 const app = express();
 
+
+
 //post API
 app.use(express.json());
 app.post("/signup",async (req,res)=>{
@@ -65,17 +67,28 @@ app.delete("/user", async(req,res)=>{
     }
 })
 
-
-app.patch("/user", async (req,res)=>{
-    const userId  = req.body.userId;
+//update API
+app.patch("/user/:userId", async (req,res)=>{
+    const userId  = req.params?.userId;
     const data = req.body;
-    const user = await User.findByIdAndUpdate({_id:userId},data,{returnDocument:'after'});
+    
     try{
+        const user = await User.findByIdAndUpdate({_id:userId},data,{returnDocument:'after',
+        runValidators: true,
+    });
+        const ALLOWED_UPDATES = [
+            "photo","skills","about","age","gender"
+        ]
+        const isUpdateAllowed = Object.keys(data).every((k)=>ALLOWED_UPDATES.includes(k));
+        if(!isUpdateAllowed){
+            throw new Error("update not allowed");
+        }
+
         res.send("user is udated succesfully");
         console.log(user);
     }
-    catch{
-        res.status(400).send("data not available");
+    catch(err){
+        res.status(400).send("UPDATE FAILED"+ err.message);
     }
 })
 
