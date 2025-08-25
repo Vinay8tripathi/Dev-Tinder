@@ -48,7 +48,7 @@ const userSchema = mongoose.Schema({
 
     photo:{
         type: String,
-        // default: "https://toppng.com/uploads/preview/instagram-default-profile-picture-11562973083brycehrmyv.png",
+        default: "https://toppng.com/uploads/preview/instagram-default-profile-picture-11562973083brycehrmyv.png",
         validate(value){
             if(!validator.isURL(value)){
                 throw new Error("URL is not valid");
