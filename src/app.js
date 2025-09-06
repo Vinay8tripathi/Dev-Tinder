@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const app = express();
 app.use(express.json());
 
+
 //sign-up API
 
 app.post("/signup",async (req,res)=>{
@@ -13,7 +14,7 @@ app.post("/signup",async (req,res)=>{
 //validation(by making helper function)        
     validateSignUpData(req);
 const {firstName,lastName,emailId,password} = req.body;
-//encrypting the password
+//encrypting the password again
 const passwordHash = await bcrypt.hash(password,10);
 console.log(passwordHash);
 //creating instance of the user model
