@@ -6,7 +6,6 @@ const bcrypt = require('bcrypt');
 const app = express();
 app.use(express.json());
 
-
 //sign-up API
 
 app.post("/signup",async (req,res)=>{
